@@ -104,6 +104,9 @@ class Admin {
             if (choice == 'y' || choice == 'Y'){
                 del();
             }
+            else{
+                //main_menu();
+            }
         }
         
     }
