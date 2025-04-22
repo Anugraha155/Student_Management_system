@@ -115,7 +115,7 @@ class Admin {
 
 };
 
-class Student : protected Admin {
+class Student : virtual protected Admin {
     public:
     void details(){
         ifstream detail("Records.csv");
@@ -143,7 +143,8 @@ class Student : protected Admin {
                 throw runtime_error ("Error Occured...");
             }
             cout << "Enter your Feadback : ";
-            cin>>comment;
+            cin.ignore();
+            getline(cin,comment);
             feadback<<comment;
             cout<<"Your feedback is :"<<comment<<endl;
             
@@ -157,9 +158,106 @@ class Student : protected Admin {
 
 };
 
+class display : virtual Admin,Student{
+ public:
+    void main_menu(){
+        cout<<"\t\t|----------WELCOME USER--------------|"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|        1. Admin                    |"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|        2. Student                  |"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|------------------------------------|"<<endl;
+    
+        int choice;
+        cout<<"Select 1 or 2 : ";
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            Admin_display();
+            break;
+            case 2:
+            Student_display();
+            break;
+        
+        default:
+            cout<<"Not a valid command Enter 1 or 2";
+            break;
+        }
+    }
+
+    void Admin_display(){
+        cout<<"\t\t|----------WELCOME Admin-------------|"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|        1. View Student details     |"<<endl;
+        cout<<"\t\t|        2. Add Student              |"<<endl;
+        cout<<"\t\t|        3. Delete Student           |"<<endl;
+        cout<<"\t\t|        4.Back to main menu         |"<<endl;
+        cout<<"\t\t|                                    |"<<endl;
+        cout<<"\t\t|------------------------------------|"<<endl;
+    
+        int choice;
+        cout<<"Enter Your Choice : ";
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            show();
+            break;
+            case 2: 
+            add();
+            break;
+            case 3:
+            del();
+            break;
+            case 4:
+            main_menu();
+            break;
+        default:
+        cout<<"Enter valid command";
+            break;
+        }
+    }
+    
+    void Student_display(){
+        cout<<"\t\t|----------WELCOME STUDENT-------------|"<<endl;
+        cout<<"\t\t|                                      |"<<endl;
+        cout<<"\t\t|                                      |"<<endl;
+        cout<<"\t\t|        1. View YOUR DETAILS          |"<<endl;
+        cout<<"\t\t|        2. Give your comment          |"<<endl;
+        cout<<"\t\t|        3. Back to main menu          |"<<endl;
+        cout<<"\t\t|                                      |"<<endl;
+        cout<<"\t\t|--------------------------------------|"<<endl;
+
+        int choice;
+        cout<<"Enter your Choice : ";
+        cin>>choice;
+        switch (choice)
+        {
+        case 1:
+            details();
+            break;
+            case 2:
+            comment();
+            break;
+            case 3:
+            main_menu();
+            break;
+            default:
+            cout<<"Not a valid command";
+            break;
+        }
+    }
+    
+};
+
 
 int main(){
-    Student s1;
-    s1.comment();
+    display d1;
+    d1.main_menu();
+    d1.Admin_display();
+    d1.Student_display();
     return 0;
 }
