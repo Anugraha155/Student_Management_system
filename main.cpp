@@ -7,6 +7,10 @@ using namespace std;
 // admin features
 
 class Admin {
+    protected:
+    int id,age,marks;
+    string name;
+    string line;
     public:
     void show(){
         try
@@ -29,8 +33,7 @@ class Admin {
     }
 
     void add(){
-        int id,age,marks;
-        string name;
+
         try
         {
             ofstream file1("student_details.csv",ios::app);
@@ -62,7 +65,7 @@ class Admin {
 
     void add_more(){
         while (true){
-            cout<<"Do you want to add more?\n Press Y if YES or N if NO : ";
+            cout<<"Do you want to add more?\nPress Y if YES or N if NO : ";
             char choice;
             cin>>choice;
             if (choice == 'y' || choice == 'Y'){
@@ -76,8 +79,6 @@ class Admin {
     }
 
     void del(){
-        int id;
-        string line;
         cout <<"Enter the ID to remove ";
         cin>>id;
         ifstream delin("student_details.csv");
@@ -95,12 +96,13 @@ class Admin {
         rename("student.csv","student_details.csv");
         cout<<"Delleted sucessfully"<<endl;
     }
+
     void del_more(){
-        cout<<"Do you want to delete more?\n Press Y if YES or N if NO : ";
-        char choice;
-        cin>>choice;
         while (true)
         {
+            cout<<"Do you want to delete more?\nPress Y if YES or N if NO : ";
+            char choice;
+            cin>>choice;
             if (choice == 'y' || choice == 'Y'){
                 del();
             }
@@ -113,8 +115,51 @@ class Admin {
 
 };
 
+class Student : protected Admin {
+    public:
+    void details(){
+        ifstream detail("Records.csv");
+        cout<<"Enter your ID : ";
+        cin >>id;
+        int currentLine=0;
+        while (getline(detail,line))
+        {
+            currentLine++;
+            if (currentLine==id){
+                cout<<line;
+                break;
+            }
+        }
+        
+        
+    }
+    void comment(){
+        string comment;
+        try
+        {
+            ofstream feadback ("Studentfeadback.txt",ios::app);
+            if (!feadback.is_open())
+            {
+                throw runtime_error ("Error Occured...");
+            }
+            cout << "Enter your Feadback : ";
+            cin>>comment;
+            feadback<<comment;
+            cout<<"Your feedback is :"<<comment<<endl;
+            
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+    }
+
+};
+
 
 int main(){
-
+    Student s1;
+    s1.comment();
     return 0;
 }
