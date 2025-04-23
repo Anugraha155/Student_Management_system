@@ -63,55 +63,25 @@ class Admin {
         
     }
 
-    void add_more(){
-        while (true){
-            cout<<"Do you want to add more?\nPress Y if YES or N if NO : ";
-            char choice;
-            cin>>choice;
-            if (choice == 'y' || choice == 'Y'){
-                add();
-            }
-            else{
-                //main_menu();
-            }
-        }
-
-    }
 
     void del(){
         cout <<"Enter the ID to remove ";
         cin>>id;
         ifstream delin("student_details.csv");
         ofstream delout("student.csv");
-
+        int i= 1;
         while (getline(delin,line)){
-            int currentid =stoi(line.substr(0,line.find(",")));
-            if (currentid!=id){
-                delout<<line<<endl;
-            }
+            if (i!=id)
+            delout<<line<<endl;
+            i++;
         }
         delin.close();
         delout.close();
         remove("student_details.csv");
         rename("student.csv","student_details.csv");
-        cout<<"Delleted sucessfully"<<endl;
+        cout<<"Record removed...";
     }
 
-    void del_more(){
-        while (true)
-        {
-            cout<<"Do you want to delete more?\nPress Y if YES or N if NO : ";
-            char choice;
-            cin>>choice;
-            if (choice == 'y' || choice == 'Y'){
-                del();
-            }
-            else{
-                //main_menu();
-            }
-        }
-        
-    }
 
 };
 
@@ -126,7 +96,7 @@ class Student : virtual protected Admin {
         {
             currentLine++;
             if (currentLine==id){
-                cout<<line;
+                cout<<line<<endl;
                 break;
             }
         }
@@ -205,12 +175,15 @@ class display : virtual Admin,Student{
         {
         case 1:
             show();
+            Admin_display();
             break;
             case 2: 
             add();
+            add_more();
             break;
             case 3:
             del();
+            del_more();
             break;
             case 4:
             main_menu();
@@ -220,7 +193,39 @@ class display : virtual Admin,Student{
             break;
         }
     }
+    void add_more(){
+        while (true){
+            cout<<"Do you want to add more?\nPress Y if YES or N if NO : ";
+            char choice;
+            cin>>choice;
+            if (choice == 'y' || choice == 'Y'){
+                add();
+            }
+            else{
+                Admin_display();
+                break;
+            }
+        }
     
+    }
+    
+    void del_more(){
+        while (true)
+        {
+            cout<<"Do you want to delete more?\nPress Y if YES or N if NO : ";
+            char choice;
+            cin>>choice;
+            if (choice == 'y' || choice == 'Y'){
+                del();
+            }
+            else{
+            Admin_display();
+            break;
+            }
+        }
+        
+    }
+        
     void Student_display(){
         cout<<"\t\t|----------WELCOME STUDENT-------------|"<<endl;
         cout<<"\t\t|                                      |"<<endl;
@@ -238,9 +243,11 @@ class display : virtual Admin,Student{
         {
         case 1:
             details();
+            Student_display();
             break;
             case 2:
             comment();
+            Student_display();
             break;
             case 3:
             main_menu();
