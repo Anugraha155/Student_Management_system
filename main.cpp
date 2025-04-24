@@ -189,7 +189,7 @@ class display : virtual Admin,Student{
             main_menu();
             break;
         default:
-        cout<<"Enter valid command";
+        cout<<"Enter between 1 to 4";
             break;
         }
     }
